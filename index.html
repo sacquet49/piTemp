@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Température en temps réel</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<h2>Température DHT11 (°C)</h2>
+<canvas id="tempChart" width="400" height="200"></canvas>
+<script>
+    const ctx = document.getElementById('tempChart').getContext('2d');
+    const tempChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: [],
+            datasets: [{
+                label: 'Température (°C)',
+                data: [],
+                borderColor: 'rgb(255, 99, 132)',
+                tension: 0.1
+            }]
+        },
+        options: {
+            scales: {
+                x: { title: { display: true, text: 'Temps' } },
+                y: { title: { display: true, text: '°C' }, beginAtZero: true }
+            }
+        }
+    });
+
+    function updateData() {
+        fetch('/data')
+            .then(response => response.json())
+            .then(data => {
+                tempChart.data.labels = data.map(d => {
+                    const date = new Date(d[0] * 1000);
+                    return date.toLocaleTimeString();
+                });
+                tempChart.data.datasets[0].data = data.map(d => d[1]);
+                tempChart.update();
+            });
+    }
+
+    setInterval(updateData, 2000);
+    updateData();
+</script>
+</body>
+</html>
