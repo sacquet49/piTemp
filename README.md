@@ -3,9 +3,15 @@
 # Installer les dépendances
 sudo apt update
 sudo apt install python3-pip
-pip3 install Adafruit_DHT flask matplotlib
+mkdir my_project
+cd my_project
+python -m venv --system-site-packages env
+source env/bin/activate
+sudo pip3 install Adafruit_DHT --install-option="--force-pi"
+sudo pip3 install flask matplotlib
 
 # Créer le fichier app.py
+cp ~/piTemp/app.py app.py
 python3 app.py
 
 # 1. Créer un service systemd
