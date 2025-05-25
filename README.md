@@ -7,7 +7,9 @@ mkdir my_project
 cd my_project
 python -m venv --system-site-packages env
 source env/bin/activate
-sudo pip3 install Adafruit_DHT --install-option="--force-pi"
+sudo apt install python3-pip python3-dev libgpiod2
+pip3 install adafruit-blinka adafruit-circuitpython-dht
+sudo apt install libgpiod-dev
 sudo pip3 install flask matplotlib
 
 # Créer le fichier app.py
